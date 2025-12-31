@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import { createProject, isProjectExists, isProjectFound, removeAll, removeById, showProjectById, showProjects } from "./display-manager";
+import { handleCreateProject, handleRemoveProject, handleShowProject } from "./display-manager";
 
 const program = new Command();
 
@@ -11,37 +11,31 @@ program
 
 program
     .command("add")
-    .description("Add a Firebase Project")
-    .requiredOption("-i, --id <id>", "Project ID")
-    .requiredOption("-n, --name <name>", "Project Name")
-    .requiredOption("-f, --file <path>", "Path to service.json file")
-    .hook("preAction", (thisCommand) => {
-        const options = thisCommand.opts();
-        isProjectExists(options.id)
-    })
-    .action((options) => {
-        createProject(options.id, options.name, options.file)
-    });
+    .description("Register a new Firebase project")
+    .requiredOption("-i, --id <id>", "Unique Project ID")
+    .requiredOption("-n, --name <name>", "Display Name")
+    .requiredOption("-f, --file <path>", "Path to service.json")
+    .action((opts) => handleCreateProject(opts.id, opts.name, opts.file));
 
 program
     .command("show")
-    .description("...")
-    .option("-i, --id <id>", "Project ID")
-    .hook("preAction", (thisCommand) => {
-        const options = thisCommand.opts();
-        isProjectFound(options.id)
-    })
-    .action((options) => {
-        (options.id) ? showProjectById(options.id) : showProjects();
-    })
+    .alias("ls")
+    .description("List all projects or show details of one")
+    .option("-i, --id <id>", "Specific Project ID")
+    .action((opts) => handleShowProject(opts.id));
 
 program
     .command("remove")
-    .description("...")
-    .option("-i, --id <id>", "Project ID")
-    .action((options) => {
-        (options.id) ? removeById(options.id) : removeAll();
-    })
-
+    .alias("rm")
+    .description("Remove one or all projects")
+    .option("-i, --id <id>", "Project ID to remove")
+    .option("-a, --all", "Clear entire storage")
+    .action((opts) => {
+        if (opts.all) {
+            handleRemoveProject();
+        } else if (opts.id) {
+            handleRemoveProject(opts.id);
+        }
+    });
 
 program.parse();
