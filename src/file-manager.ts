@@ -75,4 +75,24 @@ const getProjectById = (id: string): Project | undefined => {
     return storage.projects.find((p) => p.id === id);
 };
 
-export { isExists, addProject, getProjects, getProjectById };
+const removeProjectById = (id: string): boolean => {
+    const storage = getProjects();
+    const initialLength = storage.projects.length;
+
+    storage.projects = storage.projects.filter((p) => p.id !== id);
+
+    if (storage.projects.length < initialLength) {
+        fs.writeFileSync(FILE_PATH, JSON.stringify(storage, null, 2));
+        return true;
+    }
+    return false;
+};
+
+const removeProjects = (): void => {
+    const emptyStorage: TaskifyStorage = {
+        projects: [],
+    };
+    fs.writeFileSync(FILE_PATH, JSON.stringify(emptyStorage, null, 2));
+};
+
+export { isExists, addProject, getProjects, getProjectById, removeProjectById, removeProjects };

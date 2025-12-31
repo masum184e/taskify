@@ -1,4 +1,4 @@
-import { addProject, getProjectById, getProjects, isExists } from "./file-manager";
+import { addProject, getProjectById, getProjects, isExists, removeProjectById, removeProjects } from "./file-manager";
 
 const showProjectById = (id: string) => {
     const data = getProjectById(id)
@@ -45,4 +45,17 @@ const isProjectFound = (id: string) => {
     }
 }
 
-export { showProjectById, showProjects, createProject, isProjectExists }
+const removeById = (id: string) => {
+    const data = removeProjectById(id)
+    if (!data) {
+        console.log("Failed to Remove Project")
+        process.exit(1);
+    }
+    console.log(`Project ${id} removed`)
+}
+
+const removeAll = () => {
+    removeProjects()
+    console.log(`Clear All Projects`)
+}
+export { showProjectById, showProjects, createProject, isProjectExists, isProjectFound, removeById, removeAll }

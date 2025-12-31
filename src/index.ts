@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import { createProject, isProjectExists, showProjectById, showProjects } from "./display-manager";
+import { createProject, isProjectExists, isProjectFound, removeAll, removeById, showProjectById, showProjects } from "./display-manager";
 
 const program = new Command();
 
@@ -29,10 +29,19 @@ program
     .option("-i, --id <id>", "Project ID")
     .hook("preAction", (thisCommand) => {
         const options = thisCommand.opts();
-        isProjectExists(options.id)
+        isProjectFound(options.id)
     })
     .action((options) => {
         (options.id) ? showProjectById(options.id) : showProjects();
     })
+
+program
+    .command("remove")
+    .description("...")
+    .option("-i, --id <id>", "Project ID")
+    .action((options) => {
+        (options.id) ? removeById(options.id) : removeAll();
+    })
+
 
 program.parse();
