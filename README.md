@@ -1,4 +1,4 @@
-# Taskify 
+# Taskify
 
 **Taskify** is a simple yet powerful **command-line task manager** built with **Node.js, TypeScript, and Commander.js**.  
 It supports both **single-command execution** and an **interactive REPL mode**, making it ideal for learning real-world CLI development.
@@ -30,6 +30,16 @@ npm install
 ```
 
 ## How to run
+
+### Global Command
+
+```sh
+npm run build
+npm link
+taskify --help
+```
+
+### REPL Mode
 
 ```sh
 npm run dev -- repl
