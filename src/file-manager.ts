@@ -70,4 +70,9 @@ const addProject = (id: string, name: string, serviceFilePath: string) => {
     }
 };
 
-export { isExists, addProject, getProjects };
+const getProjectById = (id: string): Project | undefined => {
+    const storage = getProjects();
+    return storage.projects.find((p) => p.id === id);
+};
+
+export { isExists, addProject, getProjects, getProjectById };
