@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 import { Command } from "commander";
 import { handleCreateProject, handleRemoveProject, handleShowProject } from "./display-manager";
+import { startRepl } from "./repl";
 
 const program = new Command();
 
 program
     .name("taskify")
     .description("Taskify - Firebase Project Management CLI Tool")
-    .version("1.0.0");
+    .version("1.0.0")
+    .exitOverride();
 
 program
     .command("add")
@@ -36,6 +38,13 @@ program
         } else if (opts.id) {
             handleRemoveProject(opts.id);
         }
+    });
+
+program
+    .command("repl")
+    .description("Start interactive mode")
+    .action(() => {
+        startRepl(program);
     });
 
 program.parse();

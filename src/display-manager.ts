@@ -12,7 +12,8 @@ export const handleShowProject = (id?: string) => {
         const project = findProjectById(id);
         if (!project) {
             console.log(`Error: Project '${id}' not found.`);
-            process.exit(1);
+            // process.exit(1);
+            return;
         }
         console.log(`\nDetails for: ${project.name} [${id}]`);
         console.log("------------------------------------------");
@@ -34,14 +35,16 @@ export const handleCreateProject = (id: string, name: string, file: string) => {
     try {
         if (checkProjectExists(id)) {
             console.error(`Error: Project ID '${id}' is already taken.`);
-            process.exit(1);
+            // process.exit(1);
+            return;
         }
         console.log("Initializing New Project...");
         insertProject(id, name, file);
         console.log(`Success: Project '${name}' added to Taskify.`);
     } catch (err: any) {
         console.error(`Failed: ${err.message}`);
-        process.exit(1);
+        // process.exit(1);
+        return;
     }
 };
 
@@ -51,7 +54,8 @@ export const handleRemoveProject = (id?: string) => {
             console.log(`Project '${id}' removed successfully.`);
         } else {
             console.error(`Error: Could not find project '${id}' to remove.`);
-            process.exit(1);
+            // process.exit(1);
+            return;
         }
     } else {
         clearAllProjects();
